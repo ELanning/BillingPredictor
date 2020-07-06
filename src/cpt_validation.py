@@ -41,6 +41,7 @@ def check_cpt_code_match(cpt_code: str, appointment_notes: str) -> float:
     :returns: a confidence interval in the format of 0.0 to 1.0
     :raises:
         ValueError: if cpt_code is invalid.
+        ValueError: if appointment_notes exceeds length limit.
     """
     # Fail-fast instead of silently truncating, which can hide bugs.
     # Ref: https://wiki.c2.com/?FailFast
