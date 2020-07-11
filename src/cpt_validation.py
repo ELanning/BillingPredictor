@@ -6,7 +6,7 @@ from .nlp_models.cpt_code_labels import Labels
 from .nlp_models.cpt_sequence_classification import (
     cpt_sequence_classification,
     tokenizer,
-    max_character_length,
+    max_tokens_count,
 )
 
 
@@ -37,7 +37,7 @@ def check_cpt_code_match(cpt_code: str, appointment_notes: str) -> float:
         Eg "98960", "98962", "00100" etc
     :param appointment_notes: a summary of what occurred at the appointment.
         Eg "Discussed use of ACE inhibitors for renal protection in diabetic patients"
-        Max string length given in cpt_sequence_classification module.
+        Max token count given in cpt_sequence_classification module.
     :returns: a confidence interval in the format of 0.0 to 1.0
     :raises:
         ValueError: if cpt_code is invalid.
@@ -45,9 +45,9 @@ def check_cpt_code_match(cpt_code: str, appointment_notes: str) -> float:
     """
     # Fail-fast instead of silently truncating, which can hide bugs.
     # Ref: https://wiki.c2.com/?FailFast
-    if len(appointment_notes) > max_character_length:
+    if len(appointment_notes.split()) > max_tokens_count:
         raise ValueError(
-            f"appointment_notes must not exceed {max_character_length}."
+            f"appointment_notes must not exceed {max_tokens_count} tokens."
             f"cpt_code: {cpt_code}"
             f"appoint_notes: {appointment_notes}"
         )
